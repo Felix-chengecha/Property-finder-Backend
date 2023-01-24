@@ -44,7 +44,7 @@ class PropertyController extends Controller
                   'properties.owner_contact', 'properties.cost', 'locations.loc_name', 'locations.longitude', 'locations.latitude')
                   ->leftJoin( 'locations', 'locations.properties_id', '=', 'properties.id')
                   ->where('properties.id', '=', $prop_id)
-                  ->get()  );
+                  ->get());
     }
 
 
@@ -84,13 +84,15 @@ class PropertyController extends Controller
         $cost = $request-> cost;
         $type = $request-> type;
 
+
+
         return propertyResource::collection(DB::table('properties')
         ->select( 'properties.id', 'properties.name', 'properties.category', 'properties.type',
                     'properties.cost', 'properties.display', 'locations.loc_name')
         ->leftJoin( 'locations', 'locations.properties_id', '=', 'properties.id')
         ->where('properties.category', 'LIKE', '%' .$category. '%' )
         ->where('locations.loc_name', 'LIKE',  '%' .$location. '%' )
-        ->where('cost', '<=', $cost)
+        ->where('properties.cost','<=',$cost)
         ->where('properties.type', '=', $type)
         ->get()  );
     }

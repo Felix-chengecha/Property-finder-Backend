@@ -54,28 +54,11 @@ class UsersController extends Controller
         }
     }
 
-    // public function logout(Request $request)
-    // {
-    //     try {
 
-    //         JWTAuth::Invalidate(JWTAuth::parseToken($request->token));
-
-    //         // JWTAuth::Invalidate(JWTAuth::parseToken($request->token));
-    //         // return response()->json([
-    //         //     'success' => true,
-    //         //     'message' => "Logout Success"
-    //         // ]);
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => $e->getMessage()
-    //         ]);
-    //     }
-    // }
 
     public function user_details(Request $request)
     {
-        $email = $request->get('email');
-        return UserResource::collection(User::Where('email', $email)->get());
+        $userid = $request->user_id;
+        return UserResource::collection(User::Where('id', $userid)->get());
     }
 }
