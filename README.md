@@ -1,4 +1,4 @@
-A property finder" app backend built using the Laravel framework to provide a server-side component for a property listing search application and booking.
+A property finder android app backend built using the Laravel framework to provide a server-side component for a property listing search and booking application.
 
 The backend would handle all of the data management and API functionality for the app, such as storing, retrieving, and updating information about properties in a database.
 
