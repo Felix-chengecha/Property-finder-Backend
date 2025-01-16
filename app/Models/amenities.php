@@ -11,7 +11,7 @@ class amenities extends Model
 
     protected $fillable= [
       'properties_id',
-      'amenity'
+      'amenities'
     ];
     public function properties(){
         return $this->belongsTo(properties::class);

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\properties;
+use App\Models\amenities;
 use Illuminate\Http\Request;
-use App\Http\Requests\PropertyRequest;
-use App\Http\Resources\propertyResource;
+use App\Http\Requests\AmenitiesRequest;
+use App\Http\Resources\amenitiesResource;
 
-class PropertyController extends Controller
+class AmenitiesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class PropertyController extends Controller
     public function index()
     {
         //
-        $prop = properties::all();
+        $amenities = amenities::all(); 
 
-        return propertyResource::collection($prop);
+        return amenitiesResource::collection($amenities); 
     }
 
     /**
@@ -29,19 +29,20 @@ class PropertyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PropertyRequest $request) 
+    public function store(AmenitiesRequest $request)
     {
-        // 
-
+        //
         try{
-            properties::create($request->validated());
+            amenities::create($request->validated());
+
             return response()->json([
-                'msg'=> 'property added successfully',
+                'msg'=> 'Amenity added successfully',
                 'success' => true,
              ], 201);
 
-        }catch(Exception $e)
-        {
+
+
+        }catch(Exception $e){
 
         }
 
@@ -56,11 +57,12 @@ class PropertyController extends Controller
     public function show($id)
     {
         // 
-        $prop = properties::where('id', $id)->firstorfail();
-        if (!$prop) {
-            return response()->json(['message' => 'property not found'], 404);
+        $amenit = amenities::where('id', $id)->firstorfail();
+        if (!$amenit) {
+            return response()->json(['message' => 'Order not found'], 404);
         }
-        return new propertyResource($prop);
+        return new amenitiesResource($amenit);
+
     }
 
     /**
@@ -70,22 +72,16 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PropertyRequest $request, properties $properties)
+    public function update(AmenitiesRequest $request, amenities $amenit)
     {
-        // 
-        try{ 
+        //
 
-            $properties->update($request->validated());
+        $amenit->update($request->validated());
                 return response()->json([
                     'msg'=>"records updated",
                     'success' => true,
-                    'data'=> new propertyResource ($properties),
+                    'data'=> new amenitiesResource($amenit),
                 ]); 
-
-        }catch(Exception $e){
-
-
-        }
     }
 
     /**
@@ -97,5 +93,10 @@ class PropertyController extends Controller
     public function destroy($id)
     {
         //
+    } 
+
+    public function amenities(Request $request){
+        $prop_id=$request->prop_id;
+        return amenitiesResource::collection(amenities::where('properties_id',$prop_id)->get());
     }
 }

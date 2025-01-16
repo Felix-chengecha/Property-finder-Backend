@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\properties;
+use App\Models\locations;
 use Illuminate\Http\Request;
-use App\Http\Requests\PropertyRequest;
-use App\Http\Resources\propertyResource;
+use App\Http\Requests\locationsRequest;
+use App\Http\Resources\locationsResource;
 
-class PropertyController extends Controller
+class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class PropertyController extends Controller
     public function index()
     {
         //
-        $prop = properties::all();
+        $loc = locations::all();
 
-        return propertyResource::collection($prop);
+        return locationsResource::collection($loc);
     }
 
     /**
@@ -29,19 +29,20 @@ class PropertyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PropertyRequest $request) 
+    public function store(locationsRequest $request)
     {
         // 
-
         try{
-            properties::create($request->validated());
+
+            locations::create($request->validated());
             return response()->json([
-                'msg'=> 'property added successfully',
+                'msg'=> 'location added successfully',
                 'success' => true,
              ], 201);
+            
 
-        }catch(Exception $e)
-        {
+        
+        }catch(Exception $e){
 
         }
 
@@ -55,12 +56,13 @@ class PropertyController extends Controller
      */
     public function show($id)
     {
-        // 
-        $prop = properties::where('id', $id)->firstorfail();
-        if (!$prop) {
-            return response()->json(['message' => 'property not found'], 404);
+        //
+        $location = locations::where('id', $id)->firstorfail();
+        if (!$location) {
+            return response()->json(['message' => 'Order not found'], 404);
         }
-        return new propertyResource($prop);
+        return new locationsResource($location);
+
     }
 
     /**
@@ -70,22 +72,24 @@ class PropertyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PropertyRequest $request, properties $properties)
+    public function update(locationsRequest $request, locations $loc)
     {
-        // 
+        //
+
         try{ 
 
-            $properties->update($request->validated());
+            $loc->update($request->validated());
                 return response()->json([
                     'msg'=>"records updated",
                     'success' => true,
-                    'data'=> new propertyResource ($properties),
+                    'data'=> new locationsResource($loc),
                 ]); 
 
         }catch(Exception $e){
 
 
         }
+        
     }
 
     /**

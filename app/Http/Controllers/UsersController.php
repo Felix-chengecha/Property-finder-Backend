@@ -17,20 +17,39 @@ class UsersController extends Controller
 {
     public function user_login(Request $request)
     {
+        // $creds = $request->only(['email', 'password']);  
+        // if (!$token = auth()->attempt($creds)) {
+        //     return response()->json([
+        //         'success' => false
+        //     ]);
+        // }
+        // return response()->json([
+        //     'success' => true,
+        //     'token' => $token,
+        //     'user' => Auth::User(),
+        // ]);  
 
-        $creds = $request->only(['email', 'password']);
-        if (!$token = auth()->attempt($creds)) {
-
-            return response()->json([
-                'success' => false
-            ]);
-        }
-
+        $creds = $request->only('email','password');
+        //check email
+        $user = User::where('email', $request->email)->first();
+        if(!$token = auth()->attempt($creds)){
+           return response()->json([
+               'success'=>false
+             ],401);
+         }
+         else{
+           $token  = $user->createToken('myapptoken')->plainTextToken; 
+        //    $apiAuth = $user->ApiAuth;
+         }
+   
         return response()->json([
-            'success' => true,
-            'token' => $token,
-            'user' => Auth::User(),
+           'success' =>true,
+           'token' =>$token,
+           'details' => $user
         ]);
+
+
+
     }
 
     public function user_register(Request $request)

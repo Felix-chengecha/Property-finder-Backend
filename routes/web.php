@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\PropertyController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\UploadImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,13 +15,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('allproperties',[PropertyController::class,'allproperties']);
+// Route::get('allproperties',[PropertyController::class,'allproperties']);
+
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/upload', function () {
+    return view('upload');
+});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/upload-image', [UploadImageController::class, 'uploadAndInsert']);
+
+
+// Auth::routes();
+
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

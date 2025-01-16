@@ -15,7 +15,8 @@ class properties extends Model
         'category',
         'cost',
         'description',
-        'contact'
+        'owner_contact',
+        'display'
     ];
 
 
